@@ -1,0 +1,3 @@
+<% data.map(function(podcast){ %>
+	<%= podcast.title||"UNKNOW_TITLE"%><a href="/podcast/show/<%= podcast.id %>" class="pure-button button-small pure-button-primary">Show</a><br/>
+<% }) %>

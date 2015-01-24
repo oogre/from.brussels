@@ -1,0 +1,21 @@
+<div id="podcast">
+
+</div>
+
+
+<script type="text/javascript">
+	window.addEventListener("load", function(){
+		window.OOGRE = window.OOGRE || {};
+		window.OOGRE.data = {
+			_csrf : "<%= _csrf %>"
+		};
+
+		window.OOGRE.templates = function(template, data){
+			data = data || {};
+			data._csrf = window.OOGRE.data._csrf;
+			return JST["assets/templates"+template+".ejs"](data);
+		}
+
+		$("#podcast").append(window.OOGRE.templates("/podcast/add"));
+	});
+</script>
