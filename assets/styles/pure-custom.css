@@ -344,6 +344,7 @@ Forms Core
     font-size: 0.8em;
     box-shadow: inset 0 1px 3px #e6e6e6;
     border-radius: 4px;
+    text-transform: capitalize;
     -webkit-transition: 0.3s linear border;
     -moz-transition: 0.3s linear border;
     -ms-transition: 0.3s linear border;
@@ -354,7 +355,9 @@ Forms Core
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
-
+.pure-skin-from-brussels .pure-form textarea{
+    resize: vertical;
+}
 .pure-skin-from-brussels .pure-form input[type="text"]:focus,
 .pure-skin-from-brussels .pure-form input[type="password"]:focus,
 .pure-skin-from-brussels .pure-form input[type="email"]:focus,

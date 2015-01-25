@@ -4,7 +4,7 @@
 	
 	<div class="pure-control-group">
 		<input type="text" data-toggle="dropdown" data-toggle-target=".dropdown-menu" name="radioshow" placeholder="Radioshow" value="<%= typeof(radioshow) != typeof(undefined) ? radioshow.title : '' %>" class="pure-u-1"/>
-		<ul class="dropdown-menu" role="menu" class="pure-u-1"></ul>
+		<ul class="dropdown-menu pure-u-1" role="menu"></ul>
 	</div>	
 
 
@@ -52,7 +52,44 @@
 		.replaceWith(window.OOGRE.templates("/podcast/add"));
 		return false;
 	});
-/*
+
+	var Dropdown = window.OOGRE.UI.dropdown;
+	var dropdown = new Dropdown($("input[type='text'][data-toggle='dropdown']"))
+	.on("inject", function(podcasts){
+		return	podcasts
+				.map(function(radioshow){
+					return "<li><a href='#'' data-value='"+radioshow.id+"' data-title='"+radioshow.title+"'>"+radioshow.title+"</a></li>";
+				})
+				.join("");
+	})
+	.on("inputFeed", function(event){
+		$(event.target).removeAttr("data-value");
+		$.ajax({
+			url : "/radioshow/find",
+			type : "get",
+			data : {
+				where : JSON.stringify({ 
+					title : {
+						startsWith : event.value
+					}
+				}),
+				limit : JSON.stringify("10"),
+			},
+			dataType : "JSON"
+		})
+		.done(function(radioshows){
+			dropdown.update(radioshows);
+		});
+	})
+	.on("select", function(event){
+		var $origin = $ (event.origin)
+		$(event.target)
+		.val($origin.attr("data-title"))
+		.attr("data-value", $origin.attr("data-value"));
+	});
+
+
+	/*
 	$("form#editPodcast")
 	.on("submit", function(event){
 		var _csrf = event.target._csrf.value;
@@ -74,53 +111,7 @@
 		})
 		.done(function(data){
 	});*/
-	$(".dropdown-menu").hide();
 
-
-
-	window.OOGRE.UI.dropdown.eventsHandler["select"]
-	.push(function(event){
-		$(event.target)
-		.val(event.title)
-		.attr("data-value", event.value);
-	});
-	$("input[type='text'][data-toggle='dropdown']")
-	.on("keyup", function(event){
-		var self = this;
-		var list =	$(this).attr("data-toggle-target");
-		var value = $(this).val()||"";
-
-		$(self).removeAttr("data-value");
-
-		if(!value){
-			$($(self).attr("data-toggle-target"))
-			.empty()
-			.hide();
-			$parent.prev("input").removeClass("open");
-		}
-		else if(event.keyCode != 40 && event.keyCode != 38){
-			$.ajax({
-				url : "/radioshow/find",
-				type : "get",
-				data : {
-					where : JSON.stringify({ 
-						title : {
-							startsWith : value
-						}
-					}),
-					limit : JSON.stringify("10"),
-				},
-				dataType : "JSON"
-			})
-			.done(function(radioshows){
-				window.OOGRE.UI.dropdown.build(list, radioshows)
-			});
-		}
-		else{
-			window.OOGRE.UI.dropdown.keyAction(list, event.keyCode);
-		}
-	});
-	
 
 
 

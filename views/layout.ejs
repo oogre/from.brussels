@@ -35,11 +35,14 @@
     <link rel="stylesheet" href="/styles/style.css">
     <!--STYLES END-->
   </head>
-
+  <script type="text/javascript">
+      window.OOGRE = window.OOGRE || {};
+      window.OOGRE.data = {
+        _csrf : "<%= typeof(_csrf) != typeof(undefined) ? _csrf : '' %>"
+      };
+  </script>
   <body class="pure-skin-from-brussels">
     <%- body %>
-
-
 
     <!--
         Client-side Templates
@@ -96,7 +99,9 @@
     <script src="/js/dependencies/2.lodash/1.lodash.min.js"></script>
     <script src="/js/dependencies/2.lodash/2.lodash.string.min.js"></script>
     <script src="/js/dependencies/3.ogre.js"></script>
+    <script src="/js/dependencies/3.ogre.ui.js"></script>
     <script src="/js/dependencies/validator.js"></script>
     <!--SCRIPTS END-->
+   
   </body>
 </html>
